@@ -1,25 +1,27 @@
 import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
+import { pages } from "next/dist/build/templates/app-page";
 
 export const authOptions = {
     providers: [
-      CredentialsProvider({
+    CredentialsProvider({
           name: 'Credentials',
           credentials: {
             phone: { label: "Phone number", type: "text", placeholder: "1231231231", required: true },
             password: { label: "Password", type: "password", required: true }
           },
-          // TODO: User credentials type from next-aut
+          // TODO: User credentials type from next-auth
           async authorize(credentials: any) {
             // Do zod validation, OTP validation here
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
+            console.log(hashedPassword);
             const existingUser = await db.user.findFirst({
                 where: {
                     number: credentials.phone
                 }
             });
-
+            console.log(existingUser);
             if (existingUser) {
                 const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
                 if (passwordValidation) {
@@ -46,6 +48,7 @@ export const authOptions = {
                     email: user.number
                 }
             } catch(e) {
+                console.log("efkbke");
                 console.error(e);
             }
 
@@ -61,6 +64,6 @@ export const authOptions = {
 
             return session
         }
-    }
+    },
   }
   
