@@ -4,7 +4,11 @@
     "dependencies": {
         "@prisma/client": "^5.15.0"
     },
+    "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+    },
     "devDependencies": {
+        "@types/node": "^20.14.2",
         "prisma": "^5.15.0"
     },
     "exports": {

@@ -2,6 +2,7 @@ import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
 import { pages } from "next/dist/build/templates/app-page";
+import { signIn } from "next-auth/react";
 
 export const authOptions = {
     providers: [
@@ -48,7 +49,7 @@ export const authOptions = {
                     email: user.number
                 }
             } catch(e) {
-                console.log("efkbke");
+                // console.log("efkbke");
                 console.error(e);
             }
 
