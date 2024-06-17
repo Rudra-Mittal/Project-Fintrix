@@ -37,20 +37,27 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var client_1 = require("@prisma/client");
+var bcrypt = require("bcrypt");
 var prisma = new client_1.PrismaClient();
 function main() {
     return __awaiter(this, void 0, void 0, function () {
-        var alice, bob;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, prisma.user.upsert({
+        var alice, _a, _b, bob, _c, _d;
+        var _e, _f, _g, _h;
+        return __generator(this, function (_j) {
+            switch (_j.label) {
+                case 0:
+                    _b = (_a = prisma.user).upsert;
+                    _e = {
                         where: { number: '9999999999' },
-                        update: {},
-                        create: {
-                            number: '9999999999',
-                            password: 'alice',
-                            name: 'alice',
-                            OnRampTransaction: {
+                        update: {}
+                    };
+                    _f = {
+                        number: '9999999999'
+                    };
+                    return [4 /*yield*/, bcrypt.hash('alice', 10)];
+                case 1: return [4 /*yield*/, _b.apply(_a, [(_e.create = (_f.password = _j.sent(),
+                            _f.name = 'alice',
+                            _f.OnRampTransaction = {
                                 create: {
                                     startTime: new Date(),
                                     status: "Success",
@@ -59,30 +66,34 @@ function main() {
                                     provider: "HDFC Bank",
                                 },
                             },
-                        },
-                    })];
-                case 1:
-                    alice = _a.sent();
-                    return [4 /*yield*/, prisma.user.upsert({
-                            where: { number: '9999999998' },
-                            update: {},
-                            create: {
-                                number: '9999999998',
-                                password: 'bob',
-                                name: 'bob',
-                                OnRampTransaction: {
-                                    create: {
-                                        startTime: new Date(),
-                                        status: "Failure",
-                                        amount: 2000,
-                                        token: "123",
-                                        provider: "HDFC Bank",
-                                    },
+                            _f),
+                            _e)])];
+                case 2:
+                    alice = _j.sent();
+                    _d = (_c = prisma.user).upsert;
+                    _g = {
+                        where: { number: '9999999998' },
+                        update: {}
+                    };
+                    _h = {
+                        number: '9999999998'
+                    };
+                    return [4 /*yield*/, bcrypt.hash('bob', 10)];
+                case 3: return [4 /*yield*/, _d.apply(_c, [(_g.create = (_h.password = _j.sent(),
+                            _h.name = 'bob',
+                            _h.OnRampTransaction = {
+                                create: {
+                                    startTime: new Date(),
+                                    status: "Failure",
+                                    amount: 2000,
+                                    token: "123",
+                                    provider: "HDFC Bank",
                                 },
                             },
-                        })];
-                case 2:
-                    bob = _a.sent();
+                            _h),
+                            _g)])];
+                case 4:
+                    bob = _j.sent();
                     console.log({ alice: alice, bob: bob });
                     return [2 /*return*/];
             }

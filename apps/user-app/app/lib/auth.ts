@@ -22,7 +22,6 @@ export const authOptions = {
                     number: credentials.phone
                 }
             });
-            console.log(existingUser);
             if (existingUser) {
                 const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
                 if (passwordValidation) {
@@ -42,14 +41,12 @@ export const authOptions = {
                         password: hashedPassword
                     }
                 });
-            
                 return {
                     id: user.id.toString(),
                     name: user.name,
                     email: user.number
                 }
             } catch(e) {
-                // console.log("efkbke");
                 console.error(e);
             }
 
