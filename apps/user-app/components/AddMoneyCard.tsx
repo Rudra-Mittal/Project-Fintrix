@@ -9,6 +9,7 @@ import {PrismaClient} from '@prisma/client'
 import { useSession } from "next-auth/react";
 import { json } from "stream/consumers";
 import { onRamp } from "../app/lib/trasnactions/onRamp";
+import { redirect } from "next/navigation";
 const prisma = new PrismaClient();
 const SUPPORTED_BANKS = [{
     name: "HDFC Bank",
@@ -20,6 +21,10 @@ const SUPPORTED_BANKS = [{
 
 export const AddMoney = () => {
     const session = useSession();
+    // console.log(session);
+    if(session.status==='unauthenticated'){
+        redirect("/api/auth/signin");
+    }
     const [amount, setAmount] = useState(0);
     const [bank,setBank]=useState(SUPPORTED_BANKS[0]?.name||"");
     const [redirectUrl, setRedirectUrl] = useState(SUPPORTED_BANKS[0]?.redirectUrl);

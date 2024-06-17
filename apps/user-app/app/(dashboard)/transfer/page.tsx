@@ -7,7 +7,7 @@ import { authOptions } from "../../lib/auth";
 
 async function getBalance() {
     const session = await getServerSession(authOptions);
-    console.log(session);
+    // console.log(session);
     if(!session) return { amount: 0, locked: 0 };
     const balance = await prisma.balance.findFirst({
         where: {
@@ -28,7 +28,7 @@ async function getOnRampTransactions() {
             userId: Number(session?.user?.id)
         }
     });
-    console.log(session.user.id);
+    // console.log(session.user.id);
     return txns.map(t => ({
         time: t.startTime,
         amount: t.amount,

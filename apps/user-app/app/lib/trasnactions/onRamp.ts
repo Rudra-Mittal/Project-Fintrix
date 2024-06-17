@@ -3,14 +3,10 @@ import {PrismaClient} from '@prisma/client'
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '../../lib/auth';
+import { redirect } from 'next/navigation'
 const prisma = new PrismaClient();
 export async function onRamp(amount:number,provider:string){
-    console.log("Transfer");
     const session =await getServerSession(authOptions)
-    if(!session){
-        return
-    }
-    // @ts-ignore
       const trans=  await prisma.onRampTransaction.create({
             data: {
                 amount: Number(amount) * 100,
@@ -22,11 +18,17 @@ export async function onRamp(amount:number,provider:string){
                 token: Math.random().toString(36).substring(7)
             }
         }).then((res) => {
-            console.log(res);
         }).catch((err) => {
-            console.log(err);
+            return {
+                status: 500,
+                message: "Error"
+            }
         }
         );
        await prisma.$disconnect();
-    
+    return {
+        status: 200,
+        message: "Success",
+        data:trans
+    }
 }
