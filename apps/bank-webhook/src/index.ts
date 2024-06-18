@@ -1,44 +1,57 @@
 import express from 'express';
-import prisma from "@repo/db/client"
+import {PrismaClient} from "@prisma/client"
 const app = express();
-
+const prisma =  new PrismaClient();
+app.use(express.json());
 app.post('/webhook', (req, res) => {
     console.log('Webhook received');
     res.send('Webhook received');
 });
 
 app.post("/hdfcwebhook", async (req, res) => {
-    const paymentInfo = {
-        token: req.body.token,
-        amount: req.body.amount,
-        userId: req.body.user_identifier,
-    }
+    // console.log(req.body);
+     const {token,amount,userId,status}=req.body; 
+    // console.log(token);
     try{
+        // checking if transaction is processed or not
+        const transStatus=await prisma.onRampTransaction.findFirst({
+            where:{
+                token:token
+            }
+        })
+        if(transStatus?.status!=="Processing"){
+           return  res.json({status: "Failed"}).status(400);
+        }
         await prisma.$transaction([
             prisma.balance.update({
                 where: {
-                    userId: paymentInfo.userId
+                    userId: userId
                 },
                 data: {
                     // Increment the balance by the amount paid
                     amount: {
-                        increment: paymentInfo.amount
+                        increment: (status)?amount*100:0
+                    },
+                    locked:{
+                        decrement:amount*100
                     }
                 }
             }),
             prisma.onRampTransaction.update({
                 where: {
-                    token: paymentInfo.token
+                    token: token
                 },
                 data: {
-                    status: "Success"
+                    status:(status)?"Success":"Failure"
                 }
             })
         ])
         res.json({status: "Success"}).status(200);
     }catch(e){
+        console.log(e);
         res.json({status: "Failed"}).status(500);
     }
+    prisma.$disconnect();
 })
 
     app.listen(3000, () => {

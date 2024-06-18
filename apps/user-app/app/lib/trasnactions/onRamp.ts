@@ -1,13 +1,12 @@
 "use server"
 import {PrismaClient} from '@prisma/client'
 import { getServerSession } from 'next-auth';
-import { NextResponse } from 'next/server';
 import { authOptions } from '../../lib/auth';
-import { redirect } from 'next/navigation'
 const prisma = new PrismaClient();
 export async function onRamp(amount:number,provider:string){
     const session =await getServerSession(authOptions)
-      const trans=  await prisma.onRampTransaction.create({
+      const trans=  await prisma.$transaction([
+       prisma.onRampTransaction.create({
             data: {
                 amount: Number(amount) * 100,
                 status: 'Processing',
@@ -17,14 +16,19 @@ export async function onRamp(amount:number,provider:string){
                 startTime: new Date(),
                 token: Math.random().toString(36).substring(7)
             }
-        }).then((res) => {
-        }).catch((err) => {
-            return {
-                status: 500,
-                message: "Error"
+        }),
+        prisma.balance.update({
+            where: {
+                userId: Number(session.user.id)
+            },
+            data: {
+                locked: {
+                    increment: Number(amount) * 100
+                }
             }
-        }
-        );
+        })
+      ])
+      console.log(trans[1].amount, trans[1].locked);
        await prisma.$disconnect();
     return {
         status: 200,

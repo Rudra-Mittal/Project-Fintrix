@@ -12,11 +12,18 @@ export default function Layout({children}:{
                 <SidebarComponent href="/dashboard" icon={<Home/>} title="Dashboard"/>
                 <SidebarComponent href="/transfer" icon={<Transfer/>} title="Transfer"/>
                 <SidebarComponent href="/transactions" icon={<Transactions/>} title="Transactions"/>
+                <SidebarComponent href="/p2p" icon={<P2p/>} title="P2p transfers"/>
                 </div>
             </div>
             {children}
         </div>
     );
+}
+function P2p(){
+    return <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
+</svg>
+    
 }
 function Home(){
     return(
