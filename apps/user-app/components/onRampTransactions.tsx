@@ -20,7 +20,7 @@ export const OnRampTransactions = ({
     }
     return <Card title="Recent Transactions">
         <div className="pt-2">
-            {transactions.map(t => <div className="flex justify-between">
+            {transactions.map(t => <div className={` p-3 border-b-3 flex justify-between my-3 ${(t.status==="Success")?"bg-green-100":"bg-red-100"}`}>
                 <div>
                     <div className="text-sm">
                         Received INR
@@ -31,7 +31,7 @@ export const OnRampTransactions = ({
                 </div>
                 <div className="flex flex-col justify-center">
                     <div>
-                    + Rs {t.amount / 100}
+                    {(t.status==="Success")?"+":""} Rs {t.amount / 100}
                     </div>
                     <div>
                         {t.status}
