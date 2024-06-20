@@ -10,8 +10,8 @@ datasource db {
 model User {
   id                Int                 @id @default(autoincrement())
   email             String?             @unique
-  name              String?
-  number            String              @unique
+  name              String
+  number            String               @unique
   password          String
   OnRampTransaction OnRampTransaction[]
   Balance           Balance[]

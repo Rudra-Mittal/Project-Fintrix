@@ -6,7 +6,7 @@ import { authOptions } from "../../lib/auth";
 import { redirect } from "next/navigation";
 export default async function home(){
     const session = await getServerSession(authOptions);
-    if(!session) redirect('/api/auth/signin');
+    if(!session) redirect(`/api/auth/signin`);
     const balance=await  prisma.balance.findFirst({
         where: {
             userId: Number(session.user.id)

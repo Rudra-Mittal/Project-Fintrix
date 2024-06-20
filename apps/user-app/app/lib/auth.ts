@@ -3,20 +3,23 @@ import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
 import { pages } from "next/dist/build/templates/app-page";
 import { signIn } from "next-auth/react";
+import page from "../(dashboard)/transfer/page";
+import { redirect } from "next/dist/server/api-utils";
 
 export const authOptions = {
     providers: [
     CredentialsProvider({
           name: 'Credentials',
           credentials: {
-            phone: { label: "Phone number", type: "text", placeholder: "1231231231", required: true },
+            name: { label: "Name", type: "text", placeholder: "John Doe", required: true },
+            phone: { label: "Phone number", type: "string", placeholder: "1231231231", required: true },
             password: { label: "Password", type: "password", required: true }
           },
           // TODO: User credentials type from next-auth
           async authorize(credentials: any) {
             // Do zod validation, OTP validation here
+            console.log(credentials);
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
-            console.log(hashedPassword);
             const existingUser = await db.user.findFirst({
                 where: {
                     number: credentials.phone
@@ -37,6 +40,7 @@ export const authOptions = {
             try {
                 const user = await db.user.create({
                     data: {
+                        name: credentials.name,
                         number: credentials.phone,
                         password: hashedPassword
                     }
@@ -70,5 +74,8 @@ export const authOptions = {
             return session
         }
     },
+    pages: {
+        signIn: '/login'
+    }
   }
   

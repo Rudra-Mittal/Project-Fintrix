@@ -2,13 +2,13 @@
 import prisma from "@repo/db/client"
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth";
-export async function p2pSend(number: number, amount: number) {
+export async function p2pSend(number: string, amount: number) {
     const session = await getServerSession(authOptions);
     if (!session) return { status: 401, message: "Unauthorized" };
     try {
         const receiver = await prisma.user.findFirst({
             where: {
-                number: number.toString()
+                number: number
             }
         });
         if (!receiver) {
@@ -57,7 +57,7 @@ export async function p2pSend(number: number, amount: number) {
         });
 
         return { status: 200, message: `${amount}$ sent successfully` };
-    } catch (e) {
+    } catch (e:any) {
         console.log(e);
         return { status: 500, message: e.message ||"Internal Server Error" };
     }

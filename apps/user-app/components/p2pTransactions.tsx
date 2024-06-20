@@ -3,7 +3,8 @@ import { Card } from "@repo/ui/card"
 export const P2pTransactions = ({ transactions }: {
     transactions: {
         amount: number,
-        sender: number,
+        sender: string,
+        receiver: string,
         time: Date,
         isSent: boolean
     }[]
@@ -23,9 +24,9 @@ export const P2pTransactions = ({ transactions }: {
                         <div className="flex  font-bold">
 
 
-                            {(!t.isSent) ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            {(!t.isSent) ? <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 4.5-15 15m0 0h11.25m-11.25 0V8.25" />
-                            </svg> : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                            </svg> : <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25" />
                             </svg>
                             } <div className="ml-2">
@@ -35,7 +36,7 @@ export const P2pTransactions = ({ transactions }: {
                     </div>
                     <div>
                         <div className="text-sm">
-                            {(t.isSent) ? "Sent to" : "Received from"} {t.sender}
+                            {(t.isSent) ? `Sent to ${t.receiver}` : `Received from ${t.sender}`} 
                         </div>
                         <div className="text-slate-600 text-xs">
                             {t.time.toDateString()}
