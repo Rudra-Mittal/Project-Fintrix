@@ -1,11 +1,7 @@
 import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
-import { pages } from "next/dist/build/templates/app-page";
-import { signIn } from "next-auth/react";
-import page from "../(dashboard)/transfer/page";
-import { redirect } from "next/dist/server/api-utils";
-
+import axios from "axios";
 export const authOptions = {
     providers: [
     CredentialsProvider({
@@ -17,8 +13,9 @@ export const authOptions = {
           },
           // TODO: User credentials type from next-auth
           async authorize(credentials: any) {
-            // Do zod validation, OTP validation here
-            console.log(credentials);
+            const res=await axios.post("https://otp.dev/api/verify/",{
+                
+            })
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
             const existingUser = await db.user.findFirst({
                 where: {
@@ -38,6 +35,9 @@ export const authOptions = {
             }
 
             try {
+                if(credentials.name.length ===0) {
+                    throw new Error("Name must be atleast 1 character long");  
+                }
                 const user = await db.user.create({
                     data: {
                         name: credentials.name,

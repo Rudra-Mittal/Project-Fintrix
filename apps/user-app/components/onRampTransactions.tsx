@@ -11,6 +11,7 @@ export const OnRampTransactions = ({
         provider: string
     }[]
 }) => {
+    const sortDate=(a, b)=>(b.time - a.time)
     if (!transactions.length) {
         return <Card title="Recent Transactions">
             <div className="text-center pb-8 pt-8">
@@ -20,7 +21,7 @@ export const OnRampTransactions = ({
     }
     return <Card title="Recent Transactions">
         <div className="pt-2">
-            {transactions.map(t => <div className={` p-3 border-b-3 flex justify-between my-3 ${(t.status==="Success")?"bg-green-100":"bg-red-100"}`}>
+            {transactions.sort(sortDate).map(t => <div className={` p-3 border-b-3 flex justify-between my-3 ${(t.status==="Success")?"bg-green-100":"bg-red-100"}`}>
                 <div>
                     <div className="text-sm">
                         Received INR

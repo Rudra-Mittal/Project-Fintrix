@@ -5,6 +5,9 @@ import { authOptions } from "../auth";
 export async function p2pSend(number: string, amount: number) {
     const session = await getServerSession(authOptions);
     if (!session) return { status: 401, message: "Unauthorized" };
+    if(amount<=0){
+        return { status: 400, message: "Amount must be greater than 0" };
+    }
     try {
         const receiver = await prisma.user.findFirst({
             where: {
