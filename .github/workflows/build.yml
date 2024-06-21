@@ -16,9 +16,10 @@ jobs:
           node-version: '20'
       - name: Install Dependencies
         run: npm install
-        
       - name: Generate prisma client
         run: npm run db:generate
+      - name: generate prisma client
+        run: cd packages/db && npx prisma generate && cd ../..
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
       - name: Run Build
