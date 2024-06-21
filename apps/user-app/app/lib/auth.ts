@@ -2,6 +2,7 @@ import db from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
 import axios from "axios";
+import { headers } from "next/headers";
 export const authOptions = {
     providers: [
     CredentialsProvider({
@@ -13,9 +14,7 @@ export const authOptions = {
           },
           // TODO: User credentials type from next-auth
           async authorize(credentials: any) {
-            const res=await axios.post("https://otp.dev/api/verify/",{
-                
-            })
+            
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
             const existingUser = await db.user.findFirst({
                 where: {
