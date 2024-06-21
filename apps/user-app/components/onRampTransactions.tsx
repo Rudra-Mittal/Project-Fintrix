@@ -11,7 +11,7 @@ export const OnRampTransactions = ({
         provider: string
     }[]
 }) => {
-    const sortDate=(a, b)=>(b.time - a.time)
+    const sortDate=(a:any, b:any)=>(b.time - a.time)
     if (!transactions.length) {
         return <Card title="Recent Transactions">
             <div className="text-center pb-8 pt-8">

@@ -9,7 +9,8 @@ export const GET = async () => {
         data: {
             email: "asd",
             name: "adsads",
-            password: "password123"
+            password: "password123",
+            number: "1231231231"
         }
     })
     return NextResponse.json({

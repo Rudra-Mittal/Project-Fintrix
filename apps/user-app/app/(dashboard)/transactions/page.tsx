@@ -3,8 +3,8 @@ import prisma from "@repo/db/client";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../lib/auth";
 import { OnRampTransactions } from "../../../components/onRampTransactions";
-const session = await getServerSession(authOptions);
 async function getOnRampTransactions() {
+    const session = await getServerSession(authOptions);
     if(!session) return [];
     const txns = await prisma.onRampTransaction.findMany({
         where: {
@@ -20,7 +20,7 @@ async function getOnRampTransactions() {
     }))
 }
 async function getP2pTransactions(){
-    
+    const session = await getServerSession(authOptions);
     const txns = await prisma.p2pTransfers.findMany({
         where: {
             OR: [
@@ -48,7 +48,6 @@ async function getP2pTransactions(){
 export default async function home(){
  const transactions = await getOnRampTransactions();
  const p2pTransactions = await getP2pTransactions();  
- console.log(p2pTransactions)
     return (
         <div className="grid grid-cols-2">
          <div>

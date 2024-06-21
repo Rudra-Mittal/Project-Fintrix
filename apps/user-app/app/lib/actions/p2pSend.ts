@@ -24,7 +24,6 @@ export async function p2pSend(number: string, amount: number) {
                     userId: Number(session.user.id)
                 }
             });
-            // await new Promise((resolve) => setTimeout(resolve, 2000));
             // @ts-ignore
             if (balance?.amount < amount*100) {
                 throw new Error ("Insufficient balance")
@@ -61,7 +60,6 @@ export async function p2pSend(number: string, amount: number) {
 
         return { status: 200, message: `${amount}$ sent successfully` };
     } catch (e:any) {
-        console.log(e);
         return { status: 500, message: e.message ||"Internal Server Error" };
     }
 }

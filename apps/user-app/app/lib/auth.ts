@@ -1,8 +1,6 @@
-import db from "@repo/db/client";
+import prisma from "@repo/db/client";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
-import axios from "axios";
-import { headers } from "next/headers";
 export const authOptions = {
     providers: [
     CredentialsProvider({
@@ -16,7 +14,7 @@ export const authOptions = {
           async authorize(credentials: any) {
             
             const hashedPassword = await bcrypt.hash(credentials.password, 10);
-            const existingUser = await db.user.findFirst({
+            const existingUser = await prisma.user.findFirst({
                 where: {
                     number: credentials.phone
                 }
@@ -37,14 +35,14 @@ export const authOptions = {
                 if(credentials.name.length ===0) {
                     throw new Error("Name must be atleast 1 character long");  
                 }
-                const user = await db.user.create({
+                const user = await prisma.user.create({
                     data: {
                         name: credentials.name,
                         number: credentials.phone,
                         password: hashedPassword
                     }
                 });
-                await db.balance.create({
+                await prisma.balance.create({
                     data: {
                         amount: 0,
                         userId: user.id,

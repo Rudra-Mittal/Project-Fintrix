@@ -1,7 +1,5 @@
 import GoogleProvider from "next-auth/providers/google";
 import db from "@repo/db/client";
-import { pages } from "next/dist/build/templates/app-page";
-
 export const authOptions = {
     providers: [
         GoogleProvider({
@@ -19,7 +17,6 @@ export const authOptions = {
             provider: "google" | "github"
             }
             }) {
-        console.log("hi signin")
         if (!user || !user.email) {
           return false;
         }
@@ -44,13 +41,6 @@ export const authOptions = {
 
         return true;
       }
-    },
-    pages: {
-      signIn: "/signin",
-      signOut: "/signout",
-      error: "/error",
-      verifyRequest: "/verify-request",
-      newUser: "/new-user"
     },
     secret: process.env.NEXTAUTH_SECRET || "secret"
   }

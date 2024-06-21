@@ -8,7 +8,7 @@ import { TextInput } from "@repo/ui/text-input";
 import {PrismaClient} from '@prisma/client'
 import { useSession } from "next-auth/react";
 import { json } from "stream/consumers";
-import { onRamp } from "../app/lib/trasnactions/onRamp";
+import { onRamp } from "../app/lib/actions/onRamp";
 import { redirect } from "next/navigation";
 const prisma = new PrismaClient();
 const SUPPORTED_BANKS = [{
