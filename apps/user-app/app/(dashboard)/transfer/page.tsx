@@ -27,7 +27,7 @@ async function getOnRampTransactions() {
         where: {
             userId: Number(session?.user?.id)
         }
-    });
+    });         
     // console.log(session.user.id);
     return txns.map(t => ({
         time: t.startTime,
