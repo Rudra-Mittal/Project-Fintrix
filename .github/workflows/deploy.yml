@@ -22,7 +22,7 @@ jobs:
       uses: docker/build-push-action@v2
       with:
         context: .
-        file: .docker/Dockerfile.userApp
+        file: docker/Dockerfile.userApp
         push: true
         tags: devrudra24/fintrix:fintrix-user
 
