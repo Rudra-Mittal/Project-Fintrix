@@ -1,16 +1,12 @@
 "use client"
 import { Button } from "@repo/ui/button";
 import { Card } from "@repo/ui/card";
-import { Center } from "@repo/ui/center";
 import { Select } from "@repo/ui/select";
 import { useState } from "react";
 import { TextInput } from "@repo/ui/text-input";
-import {PrismaClient} from '@prisma/client'
 import { useSession } from "next-auth/react";
-import { json } from "stream/consumers";
 import { onRamp } from "../app/lib/actions/onRamp";
 import { redirect } from "next/navigation";
-const prisma = new PrismaClient();
 const SUPPORTED_BANKS = [{
     name: "HDFC Bank",
     redirectUrl: "https://netbanking.hdfcbank.com"
@@ -47,7 +43,7 @@ export const AddMoney = () => {
         <div className="flex justify-center pt-4">
             <Button onClick={async() => {
                 // console.log("Transfer");
-                const res = await onRamp(amount,bank);
+                await onRamp(amount,bank);
                 window.location.href = redirectUrl || "";
             }}>
             Add Money

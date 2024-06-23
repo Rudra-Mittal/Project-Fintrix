@@ -23,7 +23,7 @@ async function getP2pTransactions(id:Number){
             receiver:true,
         }
     });
-    return txns.map(t => ({
+    return txns.map((t:any) => ({
         time: t.time,
         amount: t.amount,
         sender: t.sender.name,

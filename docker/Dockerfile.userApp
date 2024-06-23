@@ -5,6 +5,7 @@ COPY apps ./apps
 
 COPY packages ./packages
 
+ENV DATABASE_URL=postgres://postgres:password@localhost:5432/fintrix
 # Install dependencies
 RUN npm install
 

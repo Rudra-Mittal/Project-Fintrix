@@ -45,7 +45,7 @@ export default function LoginPage(props:any) {
       </div>
       <button type='submit'  onClick={handleSubmit} className="inline-block w-full py-4 px-6 mb-6 text-center text-lg leading-6 text-white font-extrabold bg-indigo-800 hover:bg-indigo-900 border-3 border-indigo-900 shadow rounded transition duration-200">{(signin)?"Sign In":"Sign Up"}</button>
       <p className="text-center font-extrabold">{(signin)?"Don't have an account ":"Already have an account"} <p className="text-red-500 hover:underline"
-          onClick={(e)=>setsignin((prev)=>!prev)}>{(signin)?"Sign Up":"Sign In"}</p></p>
+          onClick={()=>setsignin((prev)=>!prev)}>{(signin)?"Sign Up":"Sign In"}</p></p>
   </div>
 </div>
         

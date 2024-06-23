@@ -25,6 +25,6 @@ jobs:
         file: docker/Dockerfile.userApp
         push: true
         tags: devrudra24/fintrix:fintrix-user
-
+        
     - name: Verify the image
       run: docker pull devrudra24/fintrix:fintrix-user
